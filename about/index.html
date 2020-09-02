@@ -216,6 +216,7 @@
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -321,7 +322,7 @@
   <span class="author" itemprop="copyrightHolder">sypan</span>
 </div>
 
-<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 346 字</span> </div>
+<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 338 字</span> </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -394,6 +395,35 @@
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'beIfMuTfpOBv6yXwCRfIn1fk-gzGzoHsz',
+      appKey     : 'hQLpf1GSE7PirlBO9CDiRh84',
+      placeholder: "脑洞大开？",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>

@@ -195,7 +195,7 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-09-01T14:10:16+08:00"
+              datetime="2020-09-01T16:10:19+08:00"
               content="2020-09-01">
           09-01
         </time>
@@ -203,7 +203,7 @@
 
       <div class="post-title">
           <a class="post-title-link" href="/2020/09/01/es2020%E6%96%B0%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/" itemprop="url">
-            <span itemprop="name">未命名</span>
+            <span itemprop="name">es2020新特性</span>
           </a>
       </div>
 
@@ -328,7 +328,7 @@
   <span class="author" itemprop="copyrightHolder">sypan</span>
 </div>
 
-<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 346 字</span> </div>
+<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 338 字</span> </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -401,6 +401,35 @@
   
 
   
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'beIfMuTfpOBv6yXwCRfIn1fk-gzGzoHsz',
+      appKey     : 'hQLpf1GSE7PirlBO9CDiRh84',
+      placeholder: "脑洞大开？",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
 
 </body>
 </html>
