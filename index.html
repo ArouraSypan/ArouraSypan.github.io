@@ -241,7 +241,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-02 15:38:41" itemprop="dateModified" datetime="2020-09-02T15:38:41+08:00">2020-09-02</time>
+                <time title="修改时间：2020-09-03 10:04:35" itemprop="dateModified" datetime="2020-09-03T10:04:35+08:00">2020-09-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,7 +285,12 @@
     <div class="post-body" itemprop="articleBody">
     
       
-          <h2 id="合并空运算符"><a href="#合并空运算符" class="headerlink" title="合并空运算符"></a>合并空运算符</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age = <span class="number">0</span></span><br><span class="line"><span class="built_in">console</span>.log(age || <span class="number">18</span>) <span class="comment">//18</span></span><br><span class="line"><span class="built_in">console</span>.log(age ?? <span class="number">18</span>) <span class="comment">//0</span></span><br><span class="line">??可精确比较 为<span class="literal">null</span>或underfined才为后者</span><br></pre></td></tr></table></figure>
+          <a id="more"></a>
+
+
+
+<h2 id="合并空运算符"><a href="#合并空运算符" class="headerlink" title="合并空运算符"></a>合并空运算符</h2><p>在开发中，为了确保某个字段存在，我们往往会用c = a || b的方式，当a不存在时，确保c有个初始值b,但这种在a=0或者a=’’时会出错，让我们不得不对这些特殊值另加判断。<br>ES2020出了新的判断符号？？确保a只在为null或undefined是，在会执行右边</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> age = <span class="number">0</span></span><br><span class="line"><span class="built_in">console</span>.log(age || <span class="number">18</span>) <span class="comment">//18</span></span><br><span class="line"><span class="built_in">console</span>.log(age ?? <span class="number">18</span>) <span class="comment">//0</span></span><br><span class="line">??可精确比较 为<span class="literal">null</span>或underfined才为后者</span><br></pre></td></tr></table></figure>
 
 <h2 id="链接操作符"><a href="#链接操作符" class="headerlink" title="链接操作符"></a>链接操作符</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (res1 &amp;&amp; res1.data &amp;&amp; res1.data.data &amp;&amp; res1.data.data.hasProcessing) &#123;...&#125;</span><br><span class="line">if(res1?.data?.data?.hasProcessing)</span><br></pre></td></tr></table></figure>
 
@@ -295,8 +300,6 @@
 
 <h2 id="动态引入（next已经支持）"><a href="#动态引入（next已经支持）" class="headerlink" title="动态引入（next已经支持）"></a>动态引入（next已经支持）</h2><p>利用async await 实现某些组件按需加载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const addForMath &#x3D; async (a, b) &#x3D;&gt; &#123;</span><br><span class="line">  if (a &amp;&amp; b) &#123;</span><br><span class="line">    const math &#x3D; await import(&#39;.&#x2F;math.js&#39;);</span><br><span class="line">    console.log(math.add(5, 10));</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
       
     </div>
     
@@ -428,7 +431,7 @@
   <span class="author" itemprop="copyrightHolder">sypan</span>
 </div>
 
-<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 338 字</span> </div>
+<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 429 字</span> </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
