@@ -4,7 +4,7 @@
   <url>
     <loc>http://yoursite.com/2020/09/01/es2020%E6%96%B0%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/</loc>
     
-    <lastmod>2020-09-03</lastmod>
+    <lastmod>2020-09-04</lastmod>
     
   </url>
   
@@ -39,7 +39,7 @@
 
   <url>
     <loc>http://yoursite.com/</loc>
-    <lastmod>2020-09-03</lastmod>
+    <lastmod>2020-09-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -47,7 +47,7 @@
   
   <url>
     <loc>http://yoursite.com/tags/%E5%89%8D%E7%AB%AF-ES2020/</loc>
-    <lastmod>2020-09-03</lastmod>
+    <lastmod>2020-09-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -56,7 +56,7 @@
   
   <url>
     <loc>http://yoursite.com/categories/JS%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2020-09-03</lastmod>
+    <lastmod>2020-09-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
