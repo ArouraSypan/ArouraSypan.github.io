@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>函数柯里化</title>
+      <link href="/2020/09/07/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/"/>
+      <url>/2020/09/07/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/</url>
+      
+        <content type="html"><![CDATA[<h1 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h1><p>函数式编程有一个规定：就是一个函数只能有一个参数，实现函数不耦合， 处理单一数据。why?</p><a id="more"></a><p>在刷js基础题时，遇到过这样一道题，实现一个方法add，使add(1,2)=3,add(1)(2)=3。WTF？一个函数怎么接受两个参数？带着问题去查询，就是一个函数柯里化的实现。</p><h2 id="首先了解一下柯里化是什么"><a href="#首先了解一下柯里化是什么" class="headerlink" title="首先了解一下柯里化是什么"></a>首先了解一下柯里化是什么</h2><blockquote><p>维基百科上说道：柯里化，英语：Currying，是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。</p></blockquote><p>看着这词条解释有一点抽象，我们就拿上题的实现来做个示例。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;普通的add</span><br><span class="line">function add (a: number, b: number): number &#123;</span><br><span class="line">return a+b</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;实现多个参数的add</span><br><span class="line">function add () :any &#123;</span><br><span class="line">    &#x2F;&#x2F;利用闭包，不断的保存参数(arguments)</span><br><span class="line">let args: number[] &#x3D; Array.prototype.slice.call(arguments)</span><br><span class="line">let _add &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">if(arguments.length &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">&#x2F;&#x2F;当新的参数为空，调用加法</span><br><span class="line">return args.reduce((a,b)&#x3D;&gt;a+b)</span><br><span class="line">&#125; else &#123;</span><br><span class="line">&#x2F;&#x2F;否则，继续将新参数添加进args，并返回个新函数接受新参数</span><br><span class="line">Array.prototype.push..apply(args,arguments)</span><br><span class="line">retuen _add</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return _add</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> js函数 柯里化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>es2020新特性</title>
       <link href="/2020/09/01/es2020%E6%96%B0%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/"/>
       <url>/2020/09/01/es2020%E6%96%B0%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/</url>
