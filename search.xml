@@ -4,6 +4,57 @@
   
     
     <entry>
+      <title></title>
+      <link href="/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/"/>
+      <url>/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/</url>
+      
+        <content type="html"><![CDATA[<h1 id="深入理解React-lazy"><a href="#深入理解React-lazy" class="headerlink" title="深入理解React.lazy"></a>深入理解React.lazy</h1><h2 id="1-代码分割"><a href="#1-代码分割" class="headerlink" title="1.代码分割"></a>1.代码分割</h2><h3 id="为什么要进行代码分割？"><a href="#为什么要进行代码分割？" class="headerlink" title="为什么要进行代码分割？"></a>为什么要进行代码分割？</h3><p>现在前端项目基本采用的都是打包技术，比如webpack，JS逻辑代码打包后会产生一个bundle.js文件，而随着我们引用的第三方库越来越多或者业务逻辑代码越来越复杂，相应打包好的bundle.js文件体积就会越来越大，因为需要先加载资源之后，才会渲染页面，这样就会严重影响到页面的首屏加载。</p><p>而为了解决这样的问题，避免大体积的代码包，我们就可以通过技术手段对代码包进行分割，能过创建多个包并在运行时动态加载。现在想webpack，browserify等打包器都支持代码分割技术</p><h3 id="2-什么时候应该考虑进行代码分割？"><a href="#2-什么时候应该考虑进行代码分割？" class="headerlink" title="2.什么时候应该考虑进行代码分割？"></a>2.什么时候应该考虑进行代码分割？</h3><p>这里举一个平时开发中可能会遇到的场景，比如某个体积相对比较大的第三方库或插件只在单页应用的某一个不是首页的页面使用了，这种情况就可以考虑代码分割，增加首屏的加载速度</p><h2 id="2-React-的懒加载"><a href="#2-React-的懒加载" class="headerlink" title="2.React 的懒加载"></a>2.React 的懒加载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123;Suspense&#125; from &#39;react&#39;</span><br><span class="line">const OtherComponent &#x3D; React.lazy(()&#x3D;&gt;import(&quot;.&#x2F;index.tsx&quot;))</span><br><span class="line"></span><br><span class="line">function MyComponent() &#123;</span><br><span class="line">return (</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;Suspense fallback&#x3D;&#123;&lt;div&gt;Load...&lt;&#x2F;div&gt;&#125;&gt;</span><br><span class="line">&lt;OtherComponent &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;Suspense&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>如上代码中，通过import，React.lazy和Suspense共同一起实现了React的懒加载，也就是我们常说了运行时动态加载</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>webpack 插件尝试</title>
+      <link href="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/"/>
+      <url>/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/</url>
+      
+        <content type="html"><![CDATA[<p>webpack采用loader和plugin来扩展第三方功能</p><p>因项目需要将大量图片压缩后使用，传统的方式只能分批压缩分批保存，太过于繁琐。于是设计个插件让webpack帮我们解决这个问题</p><a id="more"></a><p>首先来看官方定义一个插件的组成</p><blockquote><ul><li>一个 JavaScript 命名函数。</li><li>在插件函数的 prototype 上定义一个 <code>apply</code> 方法。</li><li>指定一个绑定到 webpack 自身的<a href="https://www.webpackjs.com/api/compiler-hooks/">事件钩子</a>。</li><li>处理 webpack 内部实例的特定数据。</li><li>功能完成后调用 webpack 提供的回调。</li></ul></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 一个 JavaScript 命名函数。</span><br><span class="line">function MyExampleWebpackPlugin() &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在插件函数的 prototype 上定义一个 &#96;apply&#96; 方法。</span><br><span class="line">MyExampleWebpackPlugin.prototype.apply &#x3D; function(compiler) &#123;</span><br><span class="line">  &#x2F;&#x2F; 指定一个挂载到 webpack 自身的事件钩子。</span><br><span class="line">  compiler.plugin(&#39;webpacksEventHook&#39;, function(compilation &#x2F;* 处理 webpack 内部实例的特定数据。*&#x2F;, callback) &#123;</span><br><span class="line">    console.log(&quot;This is an example plugin!!!&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 功能完成后调用 webpack 提供的回调。</span><br><span class="line">    callback();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>this指向和JS继承</title>
+      <link href="/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/"/>
+      <url>/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/</url>
+      
+        <content type="html"><![CDATA[<h1 id="This指向"><a href="#This指向" class="headerlink" title="This指向"></a>This指向</h1><h2 id="了解JS函数调用"><a href="#了解JS函数调用" class="headerlink" title="了解JS函数调用"></a>了解JS函数调用</h2><p>function类型的函数在创建时，this是确定不了的，只有在运行时才能确定.先看一段示例</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">1.</span><br><span class="line">function say (txt: string) &#123;</span><br><span class="line">let name &#x3D; &#39;sypan&#39;</span><br><span class="line">console.log(this.name+&#39;say&#39;+txt) &#x2F;&#x2F;underfined</span><br><span class="line">console.log(this) &#x2F;&#x2F;winodw</span><br><span class="line">&#125;</span><br><span class="line">say(&#39;22&#39;)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">name: &#39;sypan&#39;</span><br><span class="line">say: function()&#123;</span><br><span class="line">console.log(this.name) &#x2F;&#x2F;sypan</span><br><span class="line">console.log(this) &#x2F;&#x2F;obj</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.say() </span><br><span class="line"></span><br><span class="line">3.</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">name: &#39;sypan&#39;</span><br><span class="line">say: function()&#123;</span><br><span class="line">console.log(this.name) &#x2F;&#x2F;underfined</span><br><span class="line">console.log(this) &#x2F;&#x2F;window</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">let newSay &#x3D; obj.say</span><br><span class="line">newSay()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> JS进阶 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> this </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>函数柯里化</title>
       <link href="/2020/09/07/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/"/>
       <url>/2020/09/07/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/</url>

@@ -226,6 +226,273 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sypan">
+      <meta itemprop="description" content="主要涉及web前端，javascript，typescript等知识的学习和实践">
+    </span>
+    
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sypan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/" class="post-title-link" itemprop="url">未命名</a>
+        </h2>
+    
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+    
+              <time title="创建时间：2020-09-29 17:40:10 / 修改时间：17:40:30" itemprop="dateCreated datePublished" datetime="2020-09-29T17:40:10+08:00">2020-09-29</time>
+            </span>
+    
+          
+            <span id="/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/" class="post-meta-item leancloud_visitors" data-flag-title="" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    
+        </div>
+      </header>
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+    
+      
+          <h1 id="深入理解React-lazy"><a href="#深入理解React-lazy" class="headerlink" title="深入理解React.lazy"></a>深入理解React.lazy</h1><h2 id="1-代码分割"><a href="#1-代码分割" class="headerlink" title="1.代码分割"></a>1.代码分割</h2><h3 id="为什么要进行代码分割？"><a href="#为什么要进行代码分割？" class="headerlink" title="为什么要进行代码分割？"></a>为什么要进行代码分割？</h3><p>现在前端项目基本采用的都是打包技术，比如webpack，JS逻辑代码打包后会产生一个bundle.js文件，而随着我们引用的第三方库越来越多或者业务逻辑代码越来越复杂，相应打包好的bundle.js文件体积就会越来越大，因为需要先加载资源之后，才会渲染页面，这样就会严重影响到页面的首屏加载。</p>
+<p>而为了解决这样的问题，避免大体积的代码包，我们就可以通过技术手段对代码包进行分割，能过创建多个包并在运行时动态加载。现在想webpack，browserify等打包器都支持代码分割技术</p>
+<h3 id="2-什么时候应该考虑进行代码分割？"><a href="#2-什么时候应该考虑进行代码分割？" class="headerlink" title="2.什么时候应该考虑进行代码分割？"></a>2.什么时候应该考虑进行代码分割？</h3><p>这里举一个平时开发中可能会遇到的场景，比如某个体积相对比较大的第三方库或插件只在单页应用的某一个不是首页的页面使用了，这种情况就可以考虑代码分割，增加首屏的加载速度</p>
+<h2 id="2-React-的懒加载"><a href="#2-React-的懒加载" class="headerlink" title="2.React 的懒加载"></a>2.React 的懒加载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123;Suspense&#125; from &#39;react&#39;</span><br><span class="line">const OtherComponent &#x3D; React.lazy(()&#x3D;&gt;import(&quot;.&#x2F;index.tsx&quot;))</span><br><span class="line"></span><br><span class="line">function MyComponent() &#123;</span><br><span class="line">	return (</span><br><span class="line">		&lt;div&gt;</span><br><span class="line">			&lt;Suspense fallback&#x3D;&#123;&lt;div&gt;Load...&lt;&#x2F;div&gt;&#125;&gt;</span><br><span class="line">				&lt;OtherComponent &#x2F;&gt;</span><br><span class="line">			&lt;&#x2F;Suspense&gt;</span><br><span class="line">		&lt;&#x2F;div&gt;</span><br><span class="line">	)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上代码中，通过import，React.lazy和Suspense共同一起实现了React的懒加载，也就是我们常说了运行时动态加载</p>
+
+      
+    </div>
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sypan">
+      <meta itemprop="description" content="主要涉及web前端，javascript，typescript等知识的学习和实践">
+    </span>
+    
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sypan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/" class="post-title-link" itemprop="url">webpack 插件尝试</a>
+        </h2>
+    
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+    
+              <time title="创建时间：2020-09-28 14:11:40 / 修改时间：15:21:18" itemprop="dateCreated datePublished" datetime="2020-09-28T14:11:40+08:00">2020-09-28</time>
+            </span>
+    
+          
+            <span id="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/" class="post-meta-item leancloud_visitors" data-flag-title="webpack 插件尝试" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    
+        </div>
+      </header>
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+    
+      
+          <p>webpack采用loader和plugin来扩展第三方功能</p>
+<p>因项目需要将大量图片压缩后使用，传统的方式只能分批压缩分批保存，太过于繁琐。于是设计个插件让webpack帮我们解决这个问题</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/28/webpack-%E6%8F%92%E4%BB%B6%E5%B0%9D%E8%AF%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sypan">
+      <meta itemprop="description" content="主要涉及web前端，javascript，typescript等知识的学习和实践">
+    </span>
+    
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sypan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">this指向和JS继承</a>
+        </h2>
+    
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+    
+              <time title="创建时间：2020-09-08 16:47:02" itemprop="dateCreated datePublished" datetime="2020-09-08T16:47:02+08:00">2020-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-09 09:46:23" itemprop="dateModified" datetime="2020-09-09T09:46:23+08:00">2020-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">JS进阶</span></a>
+                </span>
+            </span>
+    
+          
+            <span id="/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/" class="post-meta-item leancloud_visitors" data-flag-title="this指向和JS继承" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/09/08/this%E6%8C%87%E5%90%91%E5%92%8CJS%E7%BB%A7%E6%89%BF/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    
+        </div>
+      </header>
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+    
+      
+          <h1 id="This指向"><a href="#This指向" class="headerlink" title="This指向"></a>This指向</h1><h2 id="了解JS函数调用"><a href="#了解JS函数调用" class="headerlink" title="了解JS函数调用"></a>了解JS函数调用</h2><p>function类型的函数在创建时，this是确定不了的，只有在运行时才能确定.先看一段示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">1.</span><br><span class="line">function say (txt: string) &#123;</span><br><span class="line">	let name &#x3D; &#39;sypan&#39;</span><br><span class="line">	console.log(this.name+&#39;say&#39;+txt) &#x2F;&#x2F;underfined</span><br><span class="line">	console.log(this) &#x2F;&#x2F;winodw</span><br><span class="line">&#125;</span><br><span class="line">say(&#39;22&#39;)</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">	name: &#39;sypan&#39;</span><br><span class="line">	say: function()&#123;</span><br><span class="line">		console.log(this.name) &#x2F;&#x2F;sypan</span><br><span class="line">		console.log(this) &#x2F;&#x2F;obj</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.say() </span><br><span class="line"></span><br><span class="line">3.</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">	name: &#39;sypan&#39;</span><br><span class="line">	say: function()&#123;</span><br><span class="line">		console.log(this.name) &#x2F;&#x2F;underfined</span><br><span class="line">		console.log(this) &#x2F;&#x2F;window</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">let newSay &#x3D; obj.say</span><br><span class="line">newSay()</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/09/07/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -491,18 +758,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -547,7 +814,7 @@
   <span class="author" itemprop="copyrightHolder">sypan</span>
 </div>
 
-<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 1.3k 字</span> </div>
+<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 2.1k 字</span> </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
