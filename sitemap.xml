@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://sypan.xyz/2020/10/12/%E5%AE%9E%E7%8E%B0promise/</loc>
+    
+    <lastmod>2020-10-12</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://sypan.xyz/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/</loc>
     
     <lastmod>2020-09-29</lastmod>
@@ -67,7 +74,7 @@
 
   <url>
     <loc>https://sypan.xyz/</loc>
-    <lastmod>2020-09-29</lastmod>
+    <lastmod>2020-10-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,21 +82,28 @@
   
   <url>
     <loc>https://sypan.xyz/tags/%E5%89%8D%E7%AB%AF-ES2020/</loc>
-    <lastmod>2020-09-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://sypan.xyz/tags/%E5%87%BD%E6%95%B0-%E6%9F%AF%E9%87%8C%E5%8C%96-%E5%A4%8D%E7%94%A8/</loc>
-    <lastmod>2020-09-29</lastmod>
+    <lastmod>2020-10-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://sypan.xyz/tags/this/</loc>
-    <lastmod>2020-09-29</lastmod>
+    <lastmod>2020-10-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://sypan.xyz/tags/js/</loc>
+    <lastmod>2020-10-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://sypan.xyz/tags/%E5%87%BD%E6%95%B0-%E6%9F%AF%E9%87%8C%E5%8C%96-%E5%A4%8D%E7%94%A8/</loc>
+    <lastmod>2020-10-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -98,14 +112,14 @@
   
   <url>
     <loc>https://sypan.xyz/categories/JS%E5%9F%BA%E7%A1%80/</loc>
-    <lastmod>2020-09-29</lastmod>
+    <lastmod>2020-10-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://sypan.xyz/categories/JS%E8%BF%9B%E9%98%B6/</loc>
-    <lastmod>2020-09-29</lastmod>
+    <lastmod>2020-10-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

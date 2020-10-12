@@ -226,6 +226,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/10/12/%E5%AE%9E%E7%8E%B0promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sypan">
+      <meta itemprop="description" content="主要涉及web前端，javascript，typescript等知识的学习和实践">
+    </span>
+    
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sypan">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/12/%E5%AE%9E%E7%8E%B0promise/" class="post-title-link" itemprop="url">实现promise</a>
+        </h2>
+    
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+    
+              <time title="创建时间：2020-10-12 11:12:19 / 修改时间：11:14:03" itemprop="dateCreated datePublished" datetime="2020-10-12T11:12:19+08:00">2020-10-12</time>
+            </span>
+    
+          
+            <span id="/2020/10/12/%E5%AE%9E%E7%8E%B0promise/" class="post-meta-item leancloud_visitors" data-flag-title="实现promise" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/12/%E5%AE%9E%E7%8E%B0promise/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/12/%E5%AE%9E%E7%8E%B0promise/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+    
+        </div>
+      </header>
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+    
+      
+          <h1 id="实现完整的promise"><a href="#实现完整的promise" class="headerlink" title="实现完整的promise"></a>实现完整的promise</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">const isFunction &#x3D; obj &#x3D;&gt; typeof obj &#x3D;&#x3D;&#x3D; &#39;function&#39;</span><br><span class="line">    const isObject &#x3D; obj &#x3D;&gt; !!(obj &amp;&amp; typeof obj &#x3D;&#x3D;&#x3D; &#39;object&#39;)</span><br><span class="line">    const isThenable &#x3D; obj &#x3D;&gt; (isFunction(obj) || isObject(obj)) &amp;&amp; &#39;then&#39; in obj</span><br><span class="line">    const isPromise &#x3D; promise &#x3D;&gt; promise instanceof Promise</span><br><span class="line">    const PENDING &#x3D; &#39;pending&#39;</span><br><span class="line">    const FULFILLED &#x3D; &#39;fulfilled&#39;</span><br><span class="line">    const REJECTED &#x3D; &#39;rejected&#39;</span><br><span class="line">    function Promise() &#123;</span><br><span class="line">        this.state &#x3D; PENDING</span><br><span class="line">        this.result &#x3D; null</span><br><span class="line">        this.callbacks &#x3D; []</span><br><span class="line">    &#125;</span><br><span class="line">    Promise.prototype.catch &#x3D; function(onRejected)&#123;</span><br><span class="line">        return this.then(null, onRejected)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Promise.resolve &#x3D; value &#x3D; new Promise(resolve &#x3D;&gt; resolve(value))</span><br><span class="line">    Promise.reject &#x3D; reason &#x3D;&gt; new Promise(reject &#x3D;&gt; reject(reason))</span><br><span class="line">    const transition &#x3D; (promise, state, result) &#x3D;&gt; &#123;</span><br><span class="line">        if(promise.state !&#x3D;&#x3D; PENDING) return</span><br><span class="line">        promise.state &#x3D; state</span><br><span class="line">        promise.result &#x3D; result</span><br><span class="line">        setTimeout(() &#x3D;&gt; &#123;</span><br><span class="line">            handleCallbacks(this.callbacks, state, result)</span><br><span class="line">        &#125;, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    Promise.prototype.then &#x3D; function(onFulfilled, onRejected)&#123;</span><br><span class="line">        return new Promise((resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">            let callback &#x3D; &#123; onFulfilled, onRejected, resolve, reject&#125;</span><br><span class="line">            if(this.state &#x3D;&#x3D;&#x3D; PENDING)&#123;</span><br><span class="line">                this.callbacks.push(callback)</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                setTimeout(()&#x3D;&gt;handleCallback(callback, this.state, this.result), 0)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const handleCallback &#x3D; (callback, state, result) &#x3D;&gt; &#123;</span><br><span class="line">        const &#123; onFulfilled, onRejected, resolve, reject&#125; &#x3D; callback</span><br><span class="line">        try &#123;</span><br><span class="line">            if(state &#x3D;&#x3D;&#x3D; PENDING) &#123;</span><br><span class="line">                isFunction(onFulfilled) ? resolve(onFulfilled(result)) : resolve(result)</span><br><span class="line">            &#125;else if (s &#x3D;&#x3D;&#x3D; REJECTED) &#123;</span><br><span class="line">                isFunction(onRejected) ? resolve(onRejected(result)) : reject(result)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (error) &#123;</span><br><span class="line">            reject(error)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const handleCallbacks &#x3D; (callbacks, state, result) &#x3D;&gt; &#123;</span><br><span class="line">        while(callbacks.length)&#123;</span><br><span class="line">            handleCallback(callbacks.shift(), state, result, 0)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const resolvePromise &#x3D; (promise, result, resolve, reject) &#x3D;&gt; &#123;</span><br><span class="line">        if(result &#x3D;&#x3D;&#x3D; promise) &#123;</span><br><span class="line">            let reason &#x3D; new TypeError(&#39;Can not fulfille prosime with itself&#39;)</span><br><span class="line">            return reject(reason)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(isPromise(result))&#123;</span><br><span class="line">            return result.then(resolve,reject)</span><br><span class="line">        &#125;</span><br><span class="line">        if(isThenable(result))&#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                let then &#x3D; result.then</span><br><span class="line">                if(isFunction(result))&#123;</span><br><span class="line">                    return new Promise(then.bind(result)).then(resolve, reject)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (error)&#123;</span><br><span class="line">                return reject(error)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        resolve(result)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://sypan.xyz/2020/09/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3React.lazy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -758,7 +838,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -769,7 +849,7 @@
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -814,7 +894,7 @@
   <span class="author" itemprop="copyrightHolder">sypan</span>
 </div>
 
-<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 2.1k 字</span> </div>
+<div class="theme-info">   <div class="powered-by"></div>   <span class="post-count">全站共 2.5k 字</span> </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
